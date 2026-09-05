@@ -1,0 +1,87 @@
+{
+  "tesserae_compat": "1.x",
+  "name": "Trakt, Month",
+  "version": "0.1.0",
+  "kind": "widget",
+  "description": "Month grid of episode air dates from a public Trakt profile. Busy days heat-tint; today's cell is marked.",
+  "icon": "ph-calendar",
+  "locales": ["en", "de"],
+  "supports": {
+    "sizes": ["sm", "md", "lg"]
+  },
+  "cell_options": [
+    {
+      "name": "username",
+      "type": "string",
+      "label": "Trakt username",
+      "default": "",
+      "help": "Blank uses the default set in Trakt Core. The profile must be public."
+    },
+    {
+      "name": "list_status",
+      "type": "select",
+      "label": "List",
+      "default": "watching",
+      "choices": [
+        { "value": "watching", "label": "Watching (watched shows)" },
+        { "value": "watchlist", "label": "Watchlist" },
+        { "value": "collection", "label": "Collection" },
+        { "value": "all", "label": "Watched + watchlist + collection" }
+      ]
+    },
+    {
+      "name": "week_start",
+      "type": "select",
+      "label": "Week starts on",
+      "default": "monday",
+      "choices": [
+        { "value": "monday", "label": "Monday" },
+        { "value": "sunday", "label": "Sunday" }
+      ]
+    },
+    {
+      "name": "event_display",
+      "type": "select",
+      "label": "Day contents",
+      "default": "titles",
+      "choices": [
+        { "value": "titles", "label": "Episode titles" },
+        { "value": "dots", "label": "Dots only" }
+      ]
+    },
+    {
+      "name": "max_per_day",
+      "type": "number",
+      "label": "Max titles per day",
+      "default": 3,
+      "min": 1,
+      "max": 6
+    },
+    {
+      "name": "show_title",
+      "type": "boolean",
+      "label": "Show widget title",
+      "default": true
+    },
+    {
+      "name": "refresh_min",
+      "type": "number",
+      "label": "Cache minutes",
+      "default": 20,
+      "min": 10,
+      "max": 180
+    }
+  ],
+  "render": {
+    "dither": "none",
+    "needs_network": true
+  },
+  "requires": [
+    "network:api.trakt.tv",
+    "settings:plugin/trakt_core",
+    "settings:app"
+  ],
+  "updates": {
+    "on_schedule": [{ "kind": "daily", "suggested_at": "07:00" }]
+  }
+}

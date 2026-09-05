@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.playwright-mcp/
+data/
+preview/.cache/
+preview-*.png
+trakt-layouts*.png
+panel-*.png

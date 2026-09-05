@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Trakt widgets — 800×480 two-column</title>
+  <style>
+    html, body { margin: 0; background: #cfc8b8; font-family: "Helvetica Neue", sans-serif; }
+    body { padding: 20px 24px 40px; }
+    h1 { font-size: 16px; margin: 0 0 6px; }
+    p { margin: 0 0 16px; color: #4a463c; font-size: 14px; }
+    .panel {
+      width: 800px;
+      height: 480px;
+      display: grid;
+      grid-template-columns: 400px 400px;
+      background: #1b1a16;
+      outline: 3px solid #1b1a16;
+      margin-bottom: 28px;
+    }
+    .cell {
+      width: 400px;
+      height: 480px;
+      background: #faf8f3;
+      container-type: size;
+      overflow: hidden;
+    }
+    .label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6a6658; margin: 0 0 8px; font-weight: 700; }
+    .err { color: #8a2f2f; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h1>800×480 panel · two 400×480 columns</h1>
+  <p>Live watched shows from <strong>bestora</strong>. Needs <code>TRAKT_CLIENT_ID</code>. Target cell for a 7.3" Spectra / Waveshare.</p>
+  <p id="status" class="err"></p>
+
+  <div class="label">Schedule + Releases</div>
+  <div class="panel">
+    <div class="cell" id="schedule-a"></div>
+    <div class="cell" id="releases-a"></div>
+  </div>
+
+  <div class="label">Schedule + Month</div>
+  <div class="panel">
+    <div class="cell" id="schedule-b"></div>
+    <div class="cell" id="month-b"></div>
+  </div>
+
+  <script type="module">
+    import renderSchedule from "/trakt_schedule/client.js?v=1";
+    import renderMonth from "/trakt_month/client.js?v=1";
+    import renderReleases from "/trakt_releases/client.js?v=1";
+
+    const t = (k, f) => f ?? k;
+    const statusEl = document.getElementById("status");
+
+    async function load(view) {
+      const res = await fetch(`/preview/live.json?view=${encodeURIComponent(view)}&username=bestora&list=watching`);
+      if (!res.ok) throw new Error(`${view} ${res.status}`);
+      return res.json();
+    }
+
+    function paint(id, renderFn, data, size) {
+      const el = document.getElementById(id);
+      el.attachShadow({ mode: "open" });
+      renderFn(el.shadowRoot, {
+        cell: {
+          size,
+          w: 400,
+          h: 480,
+          options: {
+            skip_empty: true,
+            time_format: "24h",
+            columns: "auto",
+            show_title: true,
+            event_display: "titles",
+            max_per_day: 2,
+            week_start: "monday",
+          },
+        },
+        locale: "en",
+        t,
+        data,
+      });
+    }
+
+    try {
+      const [agenda, month, releases] = await Promise.all([
+        load("agenda"),
+        load("month"),
+        load("releases"),
+      ]);
+      const bits = [];
+      if (agenda.error) bits.push(agenda.error);
+      if (month.error) bits.push(month.error);
+      if (releases.error) bits.push(releases.error);
+      if (bits.length) statusEl.textContent = bits[0];
+      paint("schedule-a", renderSchedule, agenda, "md");
+      paint("releases-a", renderReleases, releases, "md");
+      paint("schedule-b", renderSchedule, agenda, "md");
+      paint("month-b", renderMonth, month, "md");
+    } catch (err) {
+      statusEl.textContent = String(err);
+    }
+  </script>
+</body>
+</html>

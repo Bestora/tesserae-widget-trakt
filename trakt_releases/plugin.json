@@ -1,0 +1,85 @@
+{
+  "tesserae_compat": "1.x",
+  "name": "Trakt, Releases",
+  "version": "0.1.0",
+  "kind": "widget",
+  "description": "Recently aired episodes from a public Trakt list. Newest first, with catch-up hints when you're behind.",
+  "icon": "ph-broadcast",
+  "locales": ["en", "de"],
+  "supports": {
+    "sizes": ["xs", "sm", "md", "lg"]
+  },
+  "cell_options": [
+    {
+      "name": "username",
+      "type": "string",
+      "label": "Trakt username",
+      "default": "",
+      "help": "Blank uses the default set in Trakt Core. The profile must be public."
+    },
+    {
+      "name": "list_status",
+      "type": "select",
+      "label": "List",
+      "default": "watching",
+      "choices": [
+        { "value": "watching", "label": "Watching (watched shows)" },
+        { "value": "watchlist", "label": "Watchlist" },
+        { "value": "collection", "label": "Collection" },
+        { "value": "all", "label": "Watched + watchlist + collection" }
+      ]
+    },
+    {
+      "name": "days_back",
+      "type": "select",
+      "label": "Look back",
+      "default": "7",
+      "choices": [
+        { "value": "1", "label": "Last 24 hours" },
+        { "value": "3", "label": "3 days" },
+        { "value": "7", "label": "A week" },
+        { "value": "14", "label": "Two weeks" }
+      ]
+    },
+    {
+      "name": "max_items",
+      "type": "number",
+      "label": "Max episodes",
+      "default": 12,
+      "min": 1,
+      "max": 40
+    },
+    {
+      "name": "show_title",
+      "type": "boolean",
+      "label": "Show widget title",
+      "default": true
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "label": "Title override",
+      "default": ""
+    },
+    {
+      "name": "refresh_min",
+      "type": "number",
+      "label": "Cache minutes",
+      "default": 20,
+      "min": 10,
+      "max": 180
+    }
+  ],
+  "render": {
+    "dither": "none",
+    "needs_network": true
+  },
+  "requires": [
+    "network:api.trakt.tv",
+    "settings:plugin/trakt_core",
+    "settings:app"
+  ],
+  "updates": {
+    "on_schedule": [{ "kind": "daily", "suggested_at": "07:00" }]
+  }
+}

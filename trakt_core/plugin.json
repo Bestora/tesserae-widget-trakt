@@ -1,0 +1,36 @@
+{
+  "tesserae_compat": "1.x",
+  "name": "Trakt Core",
+  "version": "0.1.0",
+  "kind": "data",
+  "description": "Shared Trakt default username and Client ID for the trakt_* widgets. Public profiles work with a Client ID only — no OAuth. Episode air times come from Trakt's calendar.",
+  "icon": "ph-monitor-play",
+  "supports": {
+    "sizes": ["xs", "sm", "md", "lg"]
+  },
+  "settings": [
+    {
+      "name": "client_id",
+      "type": "string",
+      "label": "Trakt Client ID",
+      "secret": true,
+      "default": "",
+      "help": "Required. Create an app at trakt.tv/oauth/applications (redirect urn:ietf:wg:oauth:2.0:oob is fine). Only the Client ID is needed for public profiles."
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "label": "Default Trakt username",
+      "default": "",
+      "help": "Used when a widget cell leaves username blank. A profile URL also works. The profile must be public."
+    }
+  ],
+  "render": {
+    "needs_network": true
+  },
+  "requires": [
+    "network:api.trakt.tv",
+    "settings:plugin",
+    "settings:app"
+  ]
+}

@@ -1,0 +1,4 @@
+preview export-ignore
+preview-*.png export-ignore
+trakt-layouts*.png export-ignore
+panel-*.png export-ignore

@@ -1,0 +1,17 @@
+{
+  "schedule": "Schedule",
+  "watching": "Watching",
+  "watchlist": "Watchlist",
+  "collection": "Collection",
+  "all": "All",
+  "episode": "Ep",
+  "aired": "Aired",
+  "now": "Now",
+  "behind": "Behind",
+  "watched": "Watched",
+  "premiere": "Premiere",
+  "finale": "Finale",
+  "movie": "Movie",
+  "empty": "Nothing airing in this window.",
+  "no_events": "No episodes"
+}

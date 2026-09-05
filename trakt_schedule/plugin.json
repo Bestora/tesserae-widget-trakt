@@ -1,0 +1,144 @@
+{
+  "tesserae_compat": "1.x",
+  "name": "Trakt, Schedule",
+  "version": "0.1.0",
+  "kind": "widget",
+  "description": "Agenda of episode air dates from a public Trakt profile. Days group upcoming and recently aired episodes from watched shows, the watchlist, or the collection.",
+  "icon": "ph-list-bullets",
+  "locales": ["en", "de"],
+  "supports": {
+    "sizes": ["xs", "sm", "md", "lg"]
+  },
+  "cell_options": [
+    {
+      "name": "username",
+      "type": "string",
+      "label": "Trakt username",
+      "default": "",
+      "help": "Blank uses the default set in Trakt Core. A profile URL also works. The profile must be public."
+    },
+    {
+      "name": "list_status",
+      "type": "select",
+      "label": "List",
+      "default": "watching",
+      "choices": [
+        { "value": "watching", "label": "Watching (watched shows)" },
+        { "value": "watchlist", "label": "Watchlist" },
+        { "value": "collection", "label": "Collection" },
+        { "value": "all", "label": "Watched + watchlist + collection" }
+      ]
+    },
+    {
+      "name": "days_back",
+      "type": "select",
+      "label": "Look back",
+      "default": "2",
+      "choices": [
+        { "value": "0", "label": "Don't show past episodes" },
+        { "value": "1", "label": "Yesterday" },
+        { "value": "2", "label": "2 days" },
+        { "value": "3", "label": "3 days" },
+        { "value": "7", "label": "A week" }
+      ]
+    },
+    {
+      "name": "days_ahead",
+      "type": "select",
+      "label": "Look ahead",
+      "default": "14",
+      "choices": [
+        { "value": "1", "label": "Today only" },
+        { "value": "3", "label": "3 days" },
+        { "value": "7", "label": "A week" },
+        { "value": "14", "label": "Two weeks" },
+        { "value": "30", "label": "A month" }
+      ]
+    },
+    {
+      "name": "skip_empty",
+      "type": "boolean",
+      "label": "Skip days with no episodes",
+      "default": true
+    },
+    {
+      "name": "time_format",
+      "type": "select",
+      "label": "Time format",
+      "default": "24h",
+      "choices": [
+        { "value": "24h", "label": "24-hour" },
+        { "value": "12h", "label": "12-hour" }
+      ]
+    },
+    {
+      "name": "columns",
+      "type": "select",
+      "label": "Layout columns",
+      "default": "auto",
+      "choices": [
+        { "value": "auto", "label": "Auto" },
+        { "value": "1", "label": "1 column" },
+        { "value": "2", "label": "2 columns" },
+        { "value": "3", "label": "3 columns" }
+      ]
+    },
+    {
+      "name": "show_title",
+      "type": "boolean",
+      "label": "Show widget title",
+      "default": true
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "label": "Title override",
+      "default": ""
+    },
+    {
+      "name": "refresh_min",
+      "type": "number",
+      "label": "Cache minutes",
+      "default": 20,
+      "min": 10,
+      "max": 180
+    }
+  ],
+  "render": {
+    "dither": "none",
+    "needs_network": true
+  },
+  "requires": [
+    "network:api.trakt.tv",
+    "settings:plugin/trakt_core",
+    "settings:app"
+  ],
+  "updates": {
+    "on_schedule": [{ "kind": "daily", "suggested_at": "07:00" }]
+  },
+  "data_schema": {
+    "color": "#ED1C24",
+    "fields": [
+      { "name": "username", "type": "str", "label": "Username" },
+      { "name": "list_label", "type": "str", "label": "List" },
+      { "name": "events", "type": "arr", "label": "Episodes" },
+      { "name": "days", "type": "arr", "label": "Days" }
+    ],
+    "sample": {
+      "username": "bestora",
+      "list_label": "Watching",
+      "today": "2026-09-05",
+      "events": [
+        {
+          "title": "The Expanse",
+          "season": 6,
+          "episode": 2,
+          "start": "2026-09-05T21:30:00+02:00",
+          "date": "2026-09-05",
+          "state": "upcoming"
+        }
+      ],
+      "days": []
+    }
+  }
+}
