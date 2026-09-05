@@ -2,6 +2,8 @@
 
 Episode air dates from a public [Trakt](https://trakt.tv/) profile, painted for e-ink dashboards.
 
+**Trakt VIP is required to create a Client ID.** A public profile is not enough: every `api.trakt.tv` call still sends `trakt-api-key`, and new apps at [trakt.tv/oauth/applications](https://trakt.tv/oauth/applications) are VIP-only. Without that key the widgets cannot load a list.
+
 Three layouts share one data plugin:
 
 | Folder | Widget | Best for |
@@ -16,7 +18,7 @@ Layouts are built for a **400×480 column** — half of an 800×480 panel (Seeed
 
 ## Data
 
-1. A **Trakt Client ID** is required. Public profiles still go through `api.trakt.tv`; create an app at [trakt.tv/oauth/applications](https://trakt.tv/oauth/applications) and paste only the Client ID into **Trakt Core**. Redirect `urn:ietf:wg:oauth:2.0:oob` is fine — this bundle does not use OAuth.
+1. A **Trakt Client ID** is required. Public profiles still go through `api.trakt.tv`. Creating an API app currently **requires Trakt VIP**. If you have a Client ID, paste it into **Trakt Core** (redirect `urn:ietf:wg:oauth:2.0:oob` is fine — this bundle does not use OAuth).
 2. The chosen list is read from the public user endpoints (`/users/{id}/watched/shows`, watchlist, collection).
 3. [Trakt's global show calendar](https://trakt.docs.apiary.io/#reference/calendars) is filtered to those show ids. Air timestamps are already on each calendar row.
 
@@ -43,7 +45,7 @@ docker compose restart
 
 `install.sh` links `trakt_core`, `trakt_schedule`, `trakt_month`, and `trakt_releases`. `git pull` in the clone then updates all four. Use `--copy` instead of links if the Tesserae process cannot follow symlinks (some Docker / HA layouts).
 
-Restart Tesserae, then **Settings → Plugins → Trakt Core**: paste the Client ID and a default username. Add **Trakt, Schedule** (and/or Month / Releases) to a dashboard.
+Restart Tesserae, then **Settings → Plugins → Trakt Core**: paste the Client ID (VIP to create one) and a default username. Add **Trakt, Schedule** (and/or Month / Releases) to a dashboard.
 
 ## Options (all three widgets)
 

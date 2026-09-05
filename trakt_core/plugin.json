@@ -3,7 +3,7 @@
   "name": "Trakt Core",
   "version": "0.1.0",
   "kind": "data",
-  "description": "Shared Trakt default username and Client ID for the trakt_* widgets. Public profiles work with a Client ID only — no OAuth. Episode air times come from Trakt's calendar.",
+  "description": "Shared Trakt default username and Client ID for the trakt_* widgets. Public profiles still need a Client ID. Creating an API app currently requires Trakt VIP.",
   "icon": "ph-monitor-play",
   "supports": {
     "sizes": ["xs", "sm", "md", "lg"]
@@ -15,7 +15,7 @@
       "label": "Trakt Client ID",
       "secret": true,
       "default": "",
-      "help": "Required. Create an app at trakt.tv/oauth/applications (redirect urn:ietf:wg:oauth:2.0:oob is fine). Only the Client ID is needed for public profiles."
+      "help": "Required. Trakt currently lets only VIP members create API apps (trakt.tv/oauth/applications). A public profile is not enough. Redirect urn:ietf:wg:oauth:2.0:oob is fine — only the Client ID is used."
     },
     {
       "name": "username",

@@ -2,6 +2,7 @@
 
 Sibling trakt_* widgets call ``load_schedule`` via the plugin registry.
 A Client ID is required (Trakt's public API still wants ``trakt-api-key``).
+Creating that app currently requires Trakt VIP; a public profile is not enough.
 Public profiles are read without OAuth: watched / watchlist / collection,
 then the global show calendar is filtered to those ids.
 """
@@ -46,12 +47,16 @@ _USER_RE = re.compile(r"^[A-Za-z0-9_-]{1,32}$")
 
 ERR_NO_CLIENT = (
     "Add a Trakt Client ID under Settings → Plugins → Trakt Core. "
-    "Create an app at trakt.tv/oauth/applications — only the Client ID is needed."
+    "Creating an API app currently requires Trakt VIP "
+    "(trakt.tv/oauth/applications). A public profile is not enough."
 )
 ERR_NO_USER = "Set a Trakt username on this cell, or a default in Trakt Core settings."
 ERR_BAD_USER = "That doesn't look like a Trakt username."
 ERR_NOT_FOUND = "Trakt user '{user}' was not found. Check the spelling and that the profile is public."
-ERR_BAD_CLIENT = "Trakt rejected the Client ID. Create a new one at trakt.tv/oauth/applications."
+ERR_BAD_CLIENT = (
+    "Trakt rejected the Client ID. New API apps currently require Trakt VIP "
+    "at trakt.tv/oauth/applications."
+)
 ERR_PRIVATE = "Trakt user '{user}' has a private profile."
 ERR_RATE = "Trakt rate-limited the request. Try again in a few minutes."
 ERR_UPSTREAM = "Couldn't load Trakt right now."

@@ -177,6 +177,7 @@ def test_load_schedule_requires_client_id():
     payload = core.load_schedule({"username": "bestora"}, {}, view="agenda")
     assert "error" in payload
     assert "Client ID" in payload["error"]
+    assert "VIP" in payload["error"]
 
 
 def test_load_schedule_requires_username():
