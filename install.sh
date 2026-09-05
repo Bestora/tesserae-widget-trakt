@@ -26,6 +26,17 @@ done
 [[ -d "$dest" ]] || { echo "Not a directory: $dest" >&2; exit 1; }
 dest="$(cd "$dest" && pwd)"
 
+# Relative links survive Docker bind-mounts (host /opt/tesserae/data → /app/data).
+link_src() {
+  local src="$1"
+  local dest_dir="$2"
+  if [[ "$(dirname "$src")" != "$dest_dir" && "$(dirname "$(dirname "$src")")" == "$(dirname "$dest_dir")" ]]; then
+    echo "../$(basename "$(dirname "$src")")/$(basename "$src")"
+    return
+  fi
+  echo "$src"
+}
+
 for folder in "${FOLDERS[@]}"; do
   src="$ROOT/$folder"
   target="$dest/$folder"
@@ -40,8 +51,9 @@ for folder in "${FOLDERS[@]}"; do
     cp -R "$src" "$target"
     echo "copied $folder"
   else
-    ln -s "$src" "$target"
-    echo "linked $folder -> $src"
+    rel="$(link_src "$src" "$dest")"
+    ln -s "$rel" "$target"
+    echo "linked $folder -> $rel"
   fi
 done
 
